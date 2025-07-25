@@ -1,0 +1,5 @@
+To add new user study, add under {/Users/xinghaozhou/Desktop/demo/public/user_data}, add {video.mp4, gpt.txt, gama.txt, human.txt}
+
+To change different user for watch, go {/Users/xinghaozhou/Desktop/demo/src/App.jsx}, change {<Navigate to="/user/user02" />}
+
+To know the mapping relation (random), go {/Users/xinghaozhou/Desktop/demo/server/voteStore.json}
