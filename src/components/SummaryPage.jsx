@@ -82,7 +82,7 @@ export default function SummaryPage() {
     fetchUserData();
   }, [userId]);
 
-  const handleEvaluation = () => {
+  const handleEvaluation = async () => {
     const confirmed = window.confirm("Are you ready to evaluate these summaries?");
     if (confirmed) {
       const mapping = summaries.map((s) => ({
@@ -93,17 +93,17 @@ export default function SummaryPage() {
 
       localStorage.setItem(`summary_mapping_${userId}`, JSON.stringify(mapping));
 
-      fetch("http://localhost:3001/api/saveMapping", {
+      await fetch("https://your-railway-subdomain.up.railway.app/api/saveMapping", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
           userId,
           timestamp: new Date().toISOString(),
-          mapping,
-        }),
-      });
+          mapping
+        })
+      });      
 
       window.open(
         "https://docs.google.com/forms/d/e/1FAIpQLSfOCbWD_x5-2YvV5Y93d-c8u3YgWG_rLs5TlJT8kkHPIZUW0A/viewform",
