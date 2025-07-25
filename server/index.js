@@ -9,6 +9,7 @@ const PORT = 3001;
 
 // ────────────────── 中间件 ──────────────────
 app.use(cors());
+app.use("/static", express.static(path.join(__dirname, "public")));
 app.use(express.json()); // 等价于 body‑parser 的 json()
 
 // voteStore.json 的绝对路径
