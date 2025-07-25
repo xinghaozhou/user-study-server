@@ -15,7 +15,7 @@ export default function SummaryPage() {
   useEffect(() => {
     async function fetchUserData() {
       // set video srcs
-      const shortVideo = `/user_data/${userId}/video.mp4`;
+      const shortVideo = `/user_data/${userId}/short_video.mp4`;
       const longVideo = `/user_data/${userId}/long_video.mp4`;
       setVideoSrcs({ short: shortVideo, long: longVideo });
 
