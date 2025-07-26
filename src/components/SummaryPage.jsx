@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import VIDEO_URLS from "../data/videoMap";
 
 export default function SummaryPage() {
   const { userId } = useParams();
@@ -15,8 +16,9 @@ export default function SummaryPage() {
   useEffect(() => {
     async function fetchUserData() {
       // set video srcs
-      const shortVideo = `/user_data/${userId}/short_video.mp4`;
-      const longVideo = `/user_data/${userId}/long_video.mp4`;
+      const userVideos = VIDEO_URLS[userId];
+      const shortVideo = VIDEO_URLS[userId]?.short || "";
+      const longVideo = VIDEO_URLS[userId]?.long || "";
       setVideoSrcs({ short: shortVideo, long: longVideo });
 
       const summaryFiles = ["gpt.txt", "gama.txt", "human.txt"];
@@ -130,11 +132,13 @@ export default function SummaryPage() {
 
       {/* video + toggle */}
       <div className="flex justify-center items-start gap-4">
-        <video
-          src={playLongVideo ? videoSrcs.long : videoSrcs.short}
-          controls
-          className="w-1/2 max-w-2xl rounded-xl shadow-lg aspect-video"
-        />
+      <iframe
+        src={playLongVideo ? videoSrcs.long : videoSrcs.short}
+        allow="autoplay"
+        allowFullScreen
+        className="w-1/2 max-w-2xl rounded-xl shadow-lg aspect-video"
+      />
+
         <button
           onClick={() => setPlayLongVideo(!playLongVideo)}
           className="h-fit mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md"
