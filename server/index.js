@@ -7,6 +7,7 @@ const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+
 const allowedOrigins = [
   "http://localhost:5173",                                  
   "https://user-study-server-production.up.railway.app", 
@@ -24,6 +25,7 @@ app.use(
 app.use("/static", express.static(path.join(__dirname, "public")));
 app.use('/user', express.static(path.join(__dirname, 'public/user_data')));
 app.use(express.json()); // 等价于 body‑parser 的 json()
+app.get('/api/health', (req, res) => res.send('OK'));
 
 // voteStore.json 的绝对路径
 const VOTE_FILE = path.join(__dirname, "voteStore.json");
