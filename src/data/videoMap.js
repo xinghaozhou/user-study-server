@@ -4,8 +4,8 @@ export const VIDEO_URLS = {
       short: "https://www.youtube.com/embed/ir0jOmOBCMQ"
     },
     user02: {
-      long: "https://www.www.youtube.com/embed/SU5sNVLm5-c",
-      short: "https://www.www.youtube.com/embed/Nf7JrOFyvD0"
+      long: "https://www.youtube.com/embed/SU5sNVLm5-c",
+      short: "https://www.youtube.com/embed/Nf7JrOFyvD0"
     },
     user03: {
       long: "https://www.youtube.com/embed/TMB2NCeD9uY",
