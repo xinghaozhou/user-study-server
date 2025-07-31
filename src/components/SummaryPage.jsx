@@ -135,7 +135,23 @@ export default function SummaryPage() {
       </button>
 
       {/* video + toggle */}
-      <div className="flex justify-center items-start gap-4">
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+
+      <div style={{
+        backgroundColor: "#f0f0f0",
+        padding: "10px 16px",
+        borderRadius: "20px",
+        textAlign: "center",
+        fontWeight: "500",
+        fontSize: "15px",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+      }}>
+        {playLongVideo
+          ? "Now showing the full video recording"
+          : "Now showing the 2-minute highlight version for quick viewing"}
+      </div>
+  
+
       <iframe
         src={playLongVideo ? videoSrcs.long : videoSrcs.short}
         allow="autoplay"
