@@ -13,7 +13,7 @@ export default function SummaryPage() {
 
   const nextUserId = `user${String(parseInt(userId.replace("user", "")) + 1).padStart(2, "0")}`;
 
-  useEffect(() => setNextEnabled(false), [pageIndex]);
+  useEffect(() => setNextEnabled(false), [userId]);
 
   useEffect(() => {
     async function fetchUserData() {
