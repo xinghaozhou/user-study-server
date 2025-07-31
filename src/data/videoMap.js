@@ -1,7 +1,7 @@
 export const VIDEO_URLS = {
     user01: {
-      long: "https://www.www.youtube.com/embed/M6wsmI8XAXw",
-      short: "https://www.www.youtube.com/embed/YYx4MmG_6Vs"
+      long: "https://www.youtube.com/embed/M6wsmI8XAXw",
+      short: "https://www.youtube.com/embed/ir0jOmOBCMQ"
     },
     user02: {
       long: "https://www.www.youtube.com/embed/SU5sNVLm5-c",
@@ -9,7 +9,7 @@ export const VIDEO_URLS = {
     },
     user03: {
       long: "https://www.youtube.com/embed/TMB2NCeD9uY",
-      short: "https:www.google.com"
+      short: "https://www.youtube.com/embed/zwmBD_mQTtE"
     },
     user04: {
       long: "https://www.youtube.com/embed/Cpq2hrKOkAI",
@@ -32,12 +32,12 @@ export const VIDEO_URLS = {
       short: "https://www.youtube.com/embed/1uQfqEEaxYQ"
     },
     user09: {
-      long: "https:www.google.com",
-      short: "https:www.google.com"
+      long: "https://www.youtube.com/embed/l9KvpR41c4s",
+      short: "https://www.youtube.com/embed/nZo0oLzy2KU"
     },
     user10: {
-      long: "https:www.google.com",
-      short: "https:www.google.com"
+      long: "https://www.youtube.com/embed/8XvBoTooG1Q",
+      short: "https://www.youtube.com/embed/GaKdrFHfBZ4"
     },
   };
   

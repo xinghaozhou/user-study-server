@@ -21,7 +21,7 @@ export default function SummaryPage() {
       const longVideo = VIDEO_URLS[userId]?.long || "";
       setVideoSrcs({ short: shortVideo, long: longVideo });
 
-      const summaryFiles = ["gpt.txt", "gama.txt", "human.txt"];
+      const summaryFiles = ["llama.txt", "gama.txt", "human.txt"];
       const results = await Promise.all(
         summaryFiles.map((file) =>
           fetch(`/user_data/${userId}/${file}`).then((res) => res.text())
