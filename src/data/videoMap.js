@@ -1,7 +1,7 @@
 export const VIDEO_URLS = {
     user01: {
       long: "https://www.youtube.com/embed/M6wsmI8XAXw",
-      short: "https://www.youtube.com/embed/ir0jOmOBCMQ"
+      short: "https://www.youtube.com/embed/BxjMEVXuprw"
     },
     user02: {
       long: "https://www.youtube.com/embed/SU5sNVLm5-c",
