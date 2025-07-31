@@ -95,7 +95,8 @@ export default function SummaryPage() {
 
       localStorage.setItem(`summary_mapping_${userId}`, JSON.stringify(mapping));
 
-      await fetch("https://your-railway-subdomain.up.railway.app/api/saveMapping", {
+      const base = import.meta.env.VITE_BACKEND_URL || "";
+      await fetch(`${base}/api/saveMapping`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

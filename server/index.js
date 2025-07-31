@@ -1,38 +1,46 @@
-// server/index.js
-const express = require("express");
-const fs = require("fs");
-const path = require("path");
-const cors = require("cors");
+const express = require('express');
+const cors    = require('cors');
+const path    = require('path');
+const fs      = require('fs');
 
-const app = express();
+const app  = express();
 const PORT = process.env.PORT || 3001;
 
-
 const allowedOrigins = [
-  "http://localhost:5173",                                  
-  "https://user-study-server-production.up.railway.app", 
+  'http://localhost:5173',
+  'https://user-study-server-production.up.railway.app'
 ];
 
-app.use(
-  cors({
-    origin: allowedOrigins,          
-    methods: ["GET", "POST", "OPTIONS"],
-    credentials: true,              
-  })
+app.use(cors({
+  origin: allowedOrigins,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  credentials: true
+}));
+app.options('*', cors());      
+
+app.use(express.json());           
+
+
+app.post('/api/saveMapping', (req, res) => {
+  const data = req.body;
+  console.log('✅ saveMapping:', data);
+  res.status(200).json({ message: 'Saved' });
+});
+app.get('/api/health', (req, res) => res.send('OK'));
+
+app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use('/user',   express.static(path.join(__dirname, 'public/user_data')));
+
+app.listen(PORT, () =>
+  console.log(`🚀 Server listening on port ${PORT}`)
 );
 
 
-app.use("/static", express.static(path.join(__dirname, "public")));
-app.use('/user', express.static(path.join(__dirname, 'public/user_data')));
-app.use(express.json()); // 等价于 body‑parser 的 json()
-app.get('/api/health', (req, res) => res.send('OK'));
-
-// voteStore.json 的绝对路径
 const VOTE_FILE = path.join(__dirname, "voteStore.json");
 
 // ──────────────── POST /api/saveMapping ────────────────
 app.post("/api/saveMapping", (req, res) => {
-  const { userId, mapping } = req.body;      // ← 前端发送的是 mapping
+  const { userId, mapping } = req.body;      
   const timestamp = new Date().toISOString();
 
   if (!userId || !mapping) {
