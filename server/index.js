@@ -31,11 +31,6 @@ app.get('/api/health', (req, res) => res.send('OK'));
 app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use('/user',   express.static(path.join(__dirname, 'public/user_data')));
 
-app.listen(PORT, () =>
-  console.log(`🚀 Server listening on port ${PORT}`)
-);
-
-
 const VOTE_FILE = path.join(__dirname, "voteStore.json");
 
 // ──────────────── POST /api/saveMapping ────────────────
