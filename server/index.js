@@ -10,7 +10,8 @@ const PORT = process.env.PORT || 3001;
 
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://user-study-server-production.up.railway.app'
+  'https://user-study-server-production.up.railway.app',
+  'https://user-study-server.vercel.app'
 ];
 app.use(cors({
   origin: allowedOrigins,
