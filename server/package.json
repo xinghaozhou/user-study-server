@@ -4,12 +4,12 @@
     "version": "1.0.0",
     "type": "commonjs",
     "engines": {
-    "node": ">=18"
+        "node": ">=18"
     },
     "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js",
-    "build": "echo 'No build step for server'"
+        "dev": "nodemon index.js",
+        "start": "node index.js",
+        "build": "echo 'No build step for server'"
     },
     "dependencies": {
         "cors": "^2.8.5",
@@ -17,6 +17,6 @@
         "redis": "^5.7.0"
     },
     "devDependencies": {
-        "nodemon": "^2.0.22"
+        "nodemon": "^3.1.10"
     }
 }
