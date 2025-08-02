@@ -13,7 +13,7 @@ export const VIDEO_URLS = {
     },
     user04: {
       long: "https://www.youtube.com/embed/Cpq2hrKOkAI",
-      short: "https://www.youtube.com/embed/zseepceV2_o"
+      short: "https://www.youtube.com/embed/5e11AV0FQpE"
     },
     user05: {
       long: "https://www.youtube.com/embed/piKKQxG2Q0U",
@@ -21,7 +21,7 @@ export const VIDEO_URLS = {
     },
     user06: {
       long: "https://www.youtube.com/embed/mLjYT6y9RWk",
-      short: "https://www.youtube.com/embed/RwJ67ozJkNE"
+      short: "https://www.youtube.com/embed/IXyjNqQKo_k"
     },
     user07: {
       long: "https://www.youtube.com/embed/-R1MMwErIBQ",

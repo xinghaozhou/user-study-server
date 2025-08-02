@@ -21,10 +21,16 @@ app.options('*', cors());
 app.use(express.json());           
 
 
-app.post('/api/saveMapping', (req, res) => {
-  const data = req.body;
-  console.log('✅ saveMapping:', data);
-  res.status(200).json({ message: 'Saved' });
+app.post('/api/saveMapping', async (req, res) => {
+  const { userId, mapping } = req.body;
+
+  try {
+    await redis.set(`mapping:${userId}`, JSON.stringify(mapping));
+    res.status(200).json({ message: "Mapping saved in Redis" });
+  } catch (error) {
+    console.error("Redis save error:", error);
+    res.status(500).json({ error: "Failed to save mapping" });
+  }
 });
 app.get('/api/health', (req, res) => res.send('OK'));
 
