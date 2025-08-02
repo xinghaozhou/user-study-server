@@ -3,6 +3,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import VIDEO_URLS from "../data/videoMap";
 
 export default function SummaryPage() {
+
+  const base = import.meta.env.VITE_BACKEND_URL || "";
+  console.log("🛠 VITE_BACKEND_URL =", base); 
+
+
   const { userId } = useParams();
   const navigate = useNavigate();
 
