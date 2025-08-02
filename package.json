@@ -4,7 +4,7 @@
     "version": "1.0.0",
     "type": "module",
     "scripts": {
-        "start": "node server/index.js",
+        "start": "npm --prefix server start",
         "dev": "concurrently \"vite --host\" \"npm --prefix server run dev\"",
         "build": "vite build && npm --prefix server run build",
         "preview": "vite preview",
