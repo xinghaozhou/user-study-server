@@ -75,7 +75,6 @@ app.get('/api/health', (req, res) => res.send('OK'));
 app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use('/user',   express.static(path.join(__dirname, 'public/user_data')));
 
-/* ===== 启动服务器 ===== */
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
