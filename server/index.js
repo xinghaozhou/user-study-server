@@ -1,62 +1,46 @@
-// server/index.js – fully patched CORS‑friendly version
+// server/index.js – CORS-friendly version
 // ----------------------------------------------------
 console.log('🔑 REDIS_URL =', process.env.REDIS_URL || 'NOT SET');
 console.log('=== RUNNING', __filename, new Date().toISOString());
 
 const express = require('express');
-const cors    = require('cors');
-const path    = require('path');
+const cors = require('cors');
+const path = require('path');
 const { createClient } = require('redis');
 
-const app  = express();
+const app = express();
 const PORT = process.env.PORT || 3001;
 
-// ────────────────────────────────────────────────────────────
-// 1. GLOBAL pre‑flight handler (handles all OPTIONS requests)
-// ────────────────────────────────────────────────────────────
-app.options('*', (req, res) => {
-  res.set({
-    'Access-Control-Allow-Origin'      : req.get('Origin') || '*',
-    'Access-Control-Allow-Methods'     : 'GET,POST,OPTIONS',
-    'Access-Control-Allow-Headers'     : 'Content-Type',
-    'Access-Control-Allow-Credentials' : 'true'
-  });
-  return res.sendStatus(204);
-});
-
-// ────────────────────────────────────────────────────────────
-// 2. CORS middleware for all /api routes
-// ────────────────────────────────────────────────────────────
+// ---------- 1. CORS for every /api request & its pre-flight ----------
 const allowList = [
   'http://localhost:5173',                                   // local dev
   'https://user-study-server.vercel.app',                    // production FE
-  'https://user-study-server-production.up.railway.app'      // backend self
 ];
 const vercelPreviewRE = /^https:\/\/user-study-server-git-.*\.vercel\.app$/;
 
-app.use('/api', cors({
+const corsApi = cors({
   origin: (origin, cb) => {
-    // no Origin → curl / health‑check etc.
-    if (!origin) return cb(null, true);
+    if (!origin) return cb(null, true); // curl / health checks
     if (allowList.includes(origin) || vercelPreviewRE.test(origin))
       return cb(null, true);
     return cb(new Error('Not allowed by CORS'));
   },
-  credentials: true
-}));
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type'],
+});
 
-// ────────────────────────────────────────────────────────────
-// 3. Misc middleware & static assets
-// ────────────────────────────────────────────────────────────
+app.use('/api', corsApi);        // normal /api requests
+app.options('/api/*', corsApi);  // pre-flight for /api/*
+
+// ---------- 2. body parsing & static assets --------------------------
 app.use(express.json());
 app.use('/static', express.static(path.join(__dirname, 'public')));
-app.use('/user',   express.static(path.join(__dirname, 'public/user_data')));
+app.use('/user', express.static(path.join(__dirname, 'public/user_data')));
 
-// ────────────────────────────────────────────────────────────
-// 4. Redis client
-// ────────────────────────────────────────────────────────────
+// ---------- 3. Redis client ------------------------------------------
 const redisURL = process.env.REDIS_URL || 'redis://localhost:6379';
-const redis    = createClient({ url: redisURL });
+const redis = createClient({ url: redisURL });
 
 redis.on('error', err => console.error('❌ Redis error:', err));
 (async () => {
@@ -68,9 +52,7 @@ redis.on('error', err => console.error('❌ Redis error:', err));
   }
 })();
 
-// ────────────────────────────────────────────────────────────
-// 5. REST API
-// ────────────────────────────────────────────────────────────
+// ---------- 4. REST API ------------------------------------------------
 app.post('/api/saveMapping', async (req, res) => {
   const { userId, mapping, timestamp = new Date().toISOString() } = req.body;
   if (!userId || !mapping)
@@ -101,9 +83,7 @@ app.get('/api/getMapping', async (req, res) => {
 
 app.get('/api/health', (_, res) => res.send('OK'));
 
-// ────────────────────────────────────────────────────────────
-// 6. Start server
-// ────────────────────────────────────────────────────────────
+// ---------- 5. Start server ------------------------------------------
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
