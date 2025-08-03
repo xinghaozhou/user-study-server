@@ -9,24 +9,27 @@ const app  = express();
 const PORT = process.env.PORT || 3001;
 
 // —— CORS middleware —— //
-const corsOptions = {
+const allowList = [
+  'http://localhost:5173',
+  'https://user-study-server.vercel.app',                     // Prod
+  'https://user-study-server-production.up.railway.app'       // Backend self
+];
+
+const vercelPreviewRE = /^https:\/\/user-study-server-git-.*\.vercel\.app$/;
+
+app.use('/api', cors({
   origin: (origin, cb) => {
-    const allow = [
-      'http://localhost:5173',
-      'https://user-study-server.vercel.app',
-      'https://user-study-server-production.up.railway.app'
-    ];
-    if (!origin || allow.includes(origin)) return cb(null, true);
+    if (!origin) return cb(null, true);                    // curl / health
+    if (allowList.includes(origin) || vercelPreviewRE.test(origin))
+      return cb(null, true);
     return cb(new Error('Not allowed by CORS'));
   },
   methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type'],
   credentials: true,
-  allowedHeaders: ['Content-Type']  
-};
+}));
 
-app.use('/api', cors(corsOptions));
-
-app.options('/api/*', cors(corsOptions));
+app.options('/api/*', cors());
 
 
 app.use(express.json());   
