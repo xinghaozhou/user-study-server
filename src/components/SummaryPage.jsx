@@ -103,18 +103,25 @@ export default function SummaryPage() {
 
       localStorage.setItem(`summary_mapping_${userId}`, JSON.stringify(mapping));
 
-      const base = import.meta.env.VITE_BACKEND_URL || "";
+      const base = import.meta.env.VITE_BACKEND_URL;
+      if (!base) {
+        console.error("VITE_BACKEND_URL: Not setting, cannot save Mapping");
+        throw new Error("Missing VITE_BACKEND_URL");
+      }
+      
       await fetch(`${base}/api/saveMapping`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
+
         body: JSON.stringify({
           userId,
           timestamp: new Date().toISOString(),
           mapping
         })
-      });      
+      });
+       
 
       window.open(
         "https://docs.google.com/forms/d/e/1FAIpQLSfOCbWD_x5-2YvV5Y93d-c8u3YgWG_rLs5TlJT8kkHPIZUW0A/viewform",
