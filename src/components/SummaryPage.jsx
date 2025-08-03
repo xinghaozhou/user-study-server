@@ -155,7 +155,7 @@ export default function SummaryPage() {
         borderRadius: "20px",
         textAlign: "center",
         fontWeight: "500",
-        fontSize: "15px",
+        fontSize: "20px",
         boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
       }}>
         {playLongVideo
@@ -173,7 +173,7 @@ export default function SummaryPage() {
 
         <button
           onClick={() => setPlayLongVideo(!playLongVideo)}
-          className="h-fit mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md"
+          className="h-fit mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm py-1 px-3 rounded-lg shadow-md"
         >
           {playLongVideo ? "Switch to Short Video" : "Switch to Full Video"}
         </button>
