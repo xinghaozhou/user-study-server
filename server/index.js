@@ -14,7 +14,10 @@ const allowedOrigins = [
   'https://user-study-server.vercel.app'
 ];
 app.use(cors({
-  origin: allowedOrigins,
+  origin: (origin, cb) => {
+    if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+    return cb(new Error('Not allowed by CORS'));
+    },
   methods: ['GET', 'POST', 'OPTIONS'],
   credentials: true
 }));
