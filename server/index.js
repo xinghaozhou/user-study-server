@@ -1,5 +1,6 @@
 /* ───────────── server/index.js ───────────── */
 console.log('🔑 REDIS_URL =', process.env.REDIS_URL || 'NOT SET');
+console.log("=== BUILD", new Date().toISOString());
 
 const express = require('express');
 const cors    = require('cors');
