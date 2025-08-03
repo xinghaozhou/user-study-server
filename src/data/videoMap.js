@@ -4,8 +4,8 @@ export const VIDEO_URLS = {
       short: "https://www.youtube.com/embed/BxjMEVXuprw"
     },
     user02: {
-      long: "https://www.youtube.com/embed/SU5sNVLm5-c",
-      short: "https://www.youtube.com/embed/MuRefh8x52I"
+      long: "https://www.youtube.com/embed/SlYrOa69i7co",
+      short: "https://www.youtube.com/embed/LIJ4y_-OrWk"
     },
     user03: {
       long: "https://www.youtube.com/embed/TMB2NCeD9uY",
@@ -16,8 +16,8 @@ export const VIDEO_URLS = {
       short: "https://www.youtube.com/embed/5e11AV0FQpE"
     },
     user05: {
-      long: "https://www.youtube.com/embed/piKKQxG2Q0U",
-      short: "https://www.youtube.com/embed/2NIcyEDH3mg"
+      long: "https://www.youtube.com/embed/PX_QX1QSc9U",
+      short: "https://www.youtube.com/embed/cgEqV-bUlvM"
     },
     user06: {
       long: "https://www.youtube.com/embed/mLjYT6y9RWk",
