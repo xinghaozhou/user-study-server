@@ -8,20 +8,26 @@ const { createClient } = require('redis');
 const app  = express();
 const PORT = process.env.PORT || 3001;
 
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://user-study-server-production.up.railway.app',
-  'https://user-study-server.vercel.app'
-];
-app.use(cors({
+// —— CORS middleware —— //
+const corsOptions = {
   origin: (origin, cb) => {
-    if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+    const allow = [
+      'http://localhost:5173',
+      'https://user-study-server.vercel.app',
+      'https://user-study-server-production.up.railway.app'
+    ];
+    if (!origin || allow.includes(origin)) return cb(null, true);
     return cb(new Error('Not allowed by CORS'));
-    },
+  },
   methods: ['GET', 'POST', 'OPTIONS'],
-  credentials: true
-}));
-app.options('*', cors());
+  credentials: true,
+  allowedHeaders: ['Content-Type']  
+};
+
+app.use('/api', cors(corsOptions));
+
+app.options('/api/*', cors(corsOptions));
+
 
 app.use(express.json());   
 
