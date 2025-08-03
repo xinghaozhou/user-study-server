@@ -29,7 +29,8 @@ app.use('/api', cors({
   credentials: true,
 }));
 
-app.options('/api/*', cors());
+app.use('/api', cors(corsOptions));         
+app.options('/api/*', cors(corsOptions));
 
 
 app.use(express.json());   
