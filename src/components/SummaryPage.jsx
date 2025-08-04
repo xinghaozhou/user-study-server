@@ -19,6 +19,7 @@ export default function SummaryPage() {
   const userNum     = parseInt(userId.replace("user", ""));
   const prevUserId  = `user${String(Math.max(userNum - 1, 1)).padStart(2, "0")}`;
   const nextUserId = `user${String(parseInt(userId.replace("user", "")) + 1).padStart(2, "0")}`;
+  const isLastUser   = userNum === 10;
   const nextPath     = isLastUser ? "/complete"    
                                 : `/user/${nextUserId}`;
   const nextLabel    = isLastUser ? "Finish" : "Next Page";
