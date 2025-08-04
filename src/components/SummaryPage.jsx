@@ -139,63 +139,56 @@ export default function SummaryPage() {
   };
 
   return (
-    <div className="flex justify-between items-center w-full px-4 mt-2">
-      <button
-        onClick={() => navigate(`/user/${prevUserId}`)}
-        disabled={userNum === 1}
-        className={`absolute top-4 left-4 px-4 py-2 rounded-lg font-semibold shadow-md
-          ${userNum === 1
-            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-            : "bg-blue-600 hover:bg-blue-700 text-white"}`}
-      >
-        Previous Page
-      </button>
-      {/* next page */}
-      <button
-        onClick={() => navigate(nextPath)}
-        disabled={!nextEnabled}                        
-        className={`absolute top-4 right-4 px-4 py-2 rounded-lg font-semibold shadow-md
-          ${nextEnabled
-            ? "bg-blue-600 hover:bg-blue-700 text-white"
-            : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
-      >
-        {nextLabel}
-      </button>
-
-      {/* video + toggle */}
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-
-      <div style={{
-        backgroundColor: "#f0f0f0",
-        padding: "10px 16px",
-        borderRadius: "20px",
-        textAlign: "center",
-        fontWeight: "500",
-        fontSize: "20px",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-      }}>
-        {playLongVideo
-          ? "Now showing the full video recording"
-          : "Now showing the 2-minute highlight version for quick viewing"}
+    <div className="max-w-6xl mx-auto px-6 py-8 space-y-8">
+  
+      <div className="flex justify-between items-center w-full px-4">  
+        {/* Previous */}
+        <button
+          onClick={() => navigate(`/user/${prevUserId}`)}
+          disabled={userNum === 1}
+          className={`px-4 py-2 rounded-lg font-semibold shadow-md   /*🟡 去掉 absolute */
+            ${userNum === 1
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700 text-white"}`}
+        >
+          Previous Page
+        </button>
+  
+        {/* Next / Finish */}
+        <button
+          onClick={() => navigate(nextPath)}
+          disabled={!nextEnabled}
+          className={`px-4 py-2 rounded-lg font-semibold shadow-md   /*🟡 去掉 absolute */
+            ${nextEnabled
+              ? "bg-blue-600 hover:bg-blue-700 text-white"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
+        >
+          {nextLabel}
+        </button>
       </div>
   
-
-      <iframe
-        src={playLongVideo ? videoSrcs.long : videoSrcs.short}
-        allow="autoplay"
-        allowFullScreen
-        className="w-1/2 max-w-2xl rounded-xl shadow-lg aspect-video"
-      />
-
+      <div className="flex flex-col items-center space-y-2">
+        <div className="bg-gray-100 px-4 py-2 rounded-2xl text-center font-medium text-lg shadow">
+          {playLongVideo
+            ? "Now showing the full video recording"
+            : "Now showing the 2-minute highlight version for quick viewing"}
+        </div>
+  
+        <iframe
+          src={playLongVideo ? videoSrcs.long : videoSrcs.short}
+          allow="autoplay"
+          allowFullScreen
+          className="w-1/2 max-w-2xl rounded-xl shadow-lg aspect-video"
+        />
+  
         <button
           onClick={() => setPlayLongVideo(!playLongVideo)}
-          className="h-fit mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm py-1 px-3 rounded-lg shadow-md"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm py-1 px-3 rounded-lg shadow-md"
         >
           {playLongVideo ? "Switch to Short Video" : "Switch to Full Video"}
         </button>
       </div>
-
-      {/* summary cards */}
+  
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {summaries.map((item, idx) => (
           <div
@@ -209,9 +202,8 @@ export default function SummaryPage() {
           </div>
         ))}
       </div>
-
-      {/* evaluation */}
-      <div className="mt-8 flex justify-center">
+  
+      <div className="flex justify-center">
         <button
           onClick={handleEvaluation}
           className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md"
@@ -221,4 +213,5 @@ export default function SummaryPage() {
       </div>
     </div>
   );
+  
 }
