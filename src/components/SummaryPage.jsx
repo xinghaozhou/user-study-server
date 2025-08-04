@@ -139,7 +139,7 @@ export default function SummaryPage() {
   };
 
   return (
-    <div className="relative max-w-6xl mx-auto px-6 py-8 space-y-8">
+    <div className="flex justify-between items-center w-full px-4 mt-2">
       <button
         onClick={() => navigate(`/user/${prevUserId}`)}
         disabled={userNum === 1}
