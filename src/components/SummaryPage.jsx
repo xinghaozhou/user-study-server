@@ -146,19 +146,19 @@ export default function SummaryPage() {
         <button
           onClick={() => navigate(`/user/${prevUserId}`)}
           disabled={userNum === 1}
-          className={`px-4 py-2 rounded-lg font-semibold shadow-md   /*🟡 去掉 absolute */
+          className={`px-4 py-2 rounded-lg font-semibold shadow-md
             ${userNum === 1
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
               : "bg-blue-600 hover:bg-blue-700 text-white"}`}
         >
           Previous Page
         </button>
-  
+        
         {/* Next / Finish */}
         <button
           onClick={() => navigate(nextPath)}
           disabled={!nextEnabled}
-          className={`px-4 py-2 rounded-lg font-semibold shadow-md   /*🟡 去掉 absolute */
+          className={`px-4 py-2 rounded-lg font-semibold shadow-md
             ${nextEnabled
               ? "bg-blue-600 hover:bg-blue-700 text-white"
               : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
