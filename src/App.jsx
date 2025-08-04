@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import SummaryPage from "./components/SummaryPage";
-import Page2 from "./pages/Page2";
+import CompletePage from "./components/CompletePage";
 
 function App() {
   return (
@@ -8,6 +8,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/user/user01" />} />
         <Route path="/user/:userId" element={<SummaryPage />} />
+        <Route path="/complete" element={<CompletePage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -16,7 +16,12 @@ export default function SummaryPage() {
   const [playLongVideo, setPlayLongVideo] = useState(false);
   const [videoSrcs, setVideoSrcs] = useState({ short: "", long: "" });
 
+  const userNum     = parseInt(userId.replace("user", ""));
+  const prevUserId  = `user${String(Math.max(userNum - 1, 1)).padStart(2, "0")}`;
   const nextUserId = `user${String(parseInt(userId.replace("user", "")) + 1).padStart(2, "0")}`;
+  const nextPath     = isLastUser ? "/complete"    
+                                : `/user/${nextUserId}`;
+  const nextLabel    = isLastUser ? "Finish" : "Next Page";
 
   useEffect(() => setNextEnabled(false), [userId]);
 
@@ -134,16 +139,26 @@ export default function SummaryPage() {
 
   return (
     <div className="relative max-w-6xl mx-auto px-6 py-8 space-y-8">
+      <button
+        onClick={() => navigate(`/user/${prevUserId}`)}
+        disabled={userNum === 1}
+        className={`absolute top-4 left-4 px-4 py-2 rounded-lg font-semibold shadow-md
+          ${userNum === 1
+            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+            : "bg-blue-600 hover:bg-blue-700 text-white"}`}
+      >
+        Previous Page
+      </button>
       {/* next page */}
       <button
-        onClick={() => navigate(`/user/${nextUserId}`)}
-        disabled={!nextEnabled}
+        onClick={() => navigate(nextPath)}
+        disabled={!nextEnabled}                        
         className={`absolute top-4 right-4 px-4 py-2 rounded-lg font-semibold shadow-md
           ${nextEnabled
             ? "bg-blue-600 hover:bg-blue-700 text-white"
             : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
       >
-        Next Page
+        {nextLabel}
       </button>
 
       {/* video + toggle */}
