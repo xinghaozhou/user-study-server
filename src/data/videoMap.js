@@ -9,11 +9,11 @@ export const VIDEO_URLS = {
     },
     user03: {
       long: "https://www.youtube.com/embed/TMB2NCeD9uY",
-      short: "https://www.youtube.com/embed/zwmBD_mQTtE"
+      short: "https://www.youtube.com/embed/kSYV07E4l50"
     },
     user04: {
-      long: "https://www.youtube.com/embed/Cpq2hrKOkAI",
-      short: "https://www.youtube.com/embed/5e11AV0FQpE"
+      long: "https://www.youtube.com/embed/oRq6vN3nU7M",
+      short: "https://www.youtube.com/embed/X_6XiRC7RSw"
     },
     user05: {
       long: "https://www.youtube.com/embed/PX_QX1QSc9U",
