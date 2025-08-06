@@ -1,11 +1,34 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import VIDEO_URLS from "../data/videoMap";
+import highlights from "../data/highlights";
+
+
+
+
+function highlightWordsInText(text, wordsToHighlight) {
+  if (!wordsToHighlight || wordsToHighlight.length === 0) return text;
+
+  // Sort longer words first to avoid substring conflicts
+  const sortedWords = [...wordsToHighlight].sort((a, b) => b.length - a.length);
+  const regex = new RegExp(`\\b(${sortedWords.join("|")})\\b`, "gi");
+
+  const parts = text.split(regex);
+  return parts.map((part, i) =>
+    sortedWords.some(w => w.toLowerCase() === part.toLowerCase()) ? (
+      <span key={i} className="text-blue-900 font-medium">{part}</span>
+    ) : (
+      part
+    )
+  );
+}
+
+
 
 export default function SummaryPage() {
 
   const base = import.meta.env.VITE_BACKEND_URL || "";
-  console.log("🛠 VITE_BACKEND_URL =", base); 
+  console.log("🛠 VITE_BACKEND_URL =", base);
 
 
   const { userId } = useParams();
@@ -16,13 +39,13 @@ export default function SummaryPage() {
   const [playLongVideo, setPlayLongVideo] = useState(false);
   const [videoSrcs, setVideoSrcs] = useState({ short: "", long: "" });
 
-  const userNum     = parseInt(userId.replace("user", ""));
-  const prevUserId  = `user${String(Math.max(userNum - 1, 1)).padStart(2, "0")}`;
+  const userNum = parseInt(userId.replace("user", ""));
+  const prevUserId = `user${String(Math.max(userNum - 1, 1)).padStart(2, "0")}`;
   const nextUserId = `user${String(parseInt(userId.replace("user", "")) + 1).padStart(2, "0")}`;
-  const isLastUser   = userNum === 10;
-  const nextPath     = isLastUser ? "/complete"    
-                                : `/user/${nextUserId}`;
-  const nextLabel    = isLastUser ? "Finish" : "Next Page";
+  const isLastUser = userNum === 10;
+  const nextPath = isLastUser ? "/complete"
+    : `/user/${nextUserId}`;
+  const nextLabel = isLastUser ? "Finish" : "Next Page";
 
   useEffect(() => setNextEnabled(false), [userId]);
 
@@ -114,7 +137,7 @@ export default function SummaryPage() {
         console.error("VITE_BACKEND_URL: Not setting, cannot save Mapping");
         throw new Error("Missing VITE_BACKEND_URL");
       }
-      
+
       await fetch(`${base}/api/saveMapping`, {
         method: "POST",
         headers: {
@@ -127,7 +150,7 @@ export default function SummaryPage() {
           mapping
         })
       });
-       
+
 
       window.open(
         "https://docs.google.com/forms/d/e/1FAIpQLSfOCbWD_x5-2YvV5Y93d-c8u3YgWG_rLs5TlJT8kkHPIZUW0A/viewform",
@@ -140,8 +163,8 @@ export default function SummaryPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-8 space-y-8">
-  
-      <div className="flex justify-between items-center w-full px-4">  
+
+      <div className="flex justify-between items-center w-full px-4">
         {/* Previous */}
         <button
           onClick={() => navigate(`/user/${prevUserId}`)}
@@ -153,7 +176,7 @@ export default function SummaryPage() {
         >
           Previous Page
         </button>
-        
+
         {/* Next / Finish */}
         <button
           onClick={() => navigate(nextPath)}
@@ -166,21 +189,21 @@ export default function SummaryPage() {
           {nextLabel}
         </button>
       </div>
-  
+
       <div className="flex flex-col items-center space-y-2">
         <div className="bg-gray-100 px-4 py-2 rounded-2xl text-center font-medium text-lg shadow">
           {playLongVideo
             ? "Now showing the full video recording"
             : "Now showing the 2-minute highlight version for quick viewing"}
         </div>
-  
+
         <iframe
           src={playLongVideo ? videoSrcs.long : videoSrcs.short}
           allow="autoplay"
           allowFullScreen
           className="w-1/2 max-w-2xl rounded-xl shadow-lg aspect-video"
         />
-  
+
         <button
           onClick={() => setPlayLongVideo(!playLongVideo)}
           className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm py-1 px-3 rounded-lg shadow-md"
@@ -188,7 +211,7 @@ export default function SummaryPage() {
           {playLongVideo ? "Switch to Short Video" : "Switch to Full Video"}
         </button>
       </div>
-  
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {summaries.map((item, idx) => (
           <div
@@ -198,11 +221,14 @@ export default function SummaryPage() {
             <h3 className="font-semibold mb-2 text-gray-700">
               Summary {item.label}
             </h3>
-            <p className="flex-grow">{item.text}</p>
+            {/* <p className="flex-grow">{item.text}</p> */}
+            <p className="flex-grow">
+              {highlightWordsInText(item.text, highlights[userId]?.[item.source])}
+            </p>
           </div>
         ))}
       </div>
-  
+
       <div className="flex justify-center">
         <button
           onClick={handleEvaluation}
@@ -213,5 +239,5 @@ export default function SummaryPage() {
       </div>
     </div>
   );
-  
+
 }

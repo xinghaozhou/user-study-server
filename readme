@@ -1,5 +1,137 @@
-1. To add a new user info, go to ./public/user_data, create a new user and put gama/human/llama.txt
-2. To add new video for user study, go to ./src/data/videoMap.js, add long/short video address There
-3. For VideoMap, go to Youtube Channel, upload the video, then mark it 'unlist', copy what's after the "youtu.com/" using the similar format in videoMap
-4. For local test, use this in commandline "npm run dev" 
-5. If anything need to be changed in Page, go to ./src/components/SummaryPage.jsx
+# 📝 Video Summary Evaluation Web App
+
+This is a lightweight web interface for conducting user studies on video summary quality. Participants watch videos and evaluate AI- or human-generated summaries.
+
+---
+
+## 🚀 Getting Started
+
+### ✅ 1. Install Node.js and npm (via `nvm`)
+
+Make sure you have Node.js (version **≥20**) installed:
+
+```bash
+# Install nvm if you haven't already
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+# Load nvm in the current terminal session
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# Install and use Node.js 20
+nvm install 20
+nvm use 20
+
+# Confirm version
+node -v  # Should output v20.x.x
+npm -v
+```
+
+---
+
+### ✅ 2. Install dependencies
+
+In the project root:
+
+```bash
+npm install
+```
+
+---
+
+### ✅ 3. Start the app locally
+
+```bash
+npm run dev
+```
+
+The app will be available at:  
+👉 `http://localhost:5173/`
+
+---
+
+## 👤 Adding New Users
+
+To add a new user for the study:
+
+1. Go to the folder: `./public/user_data/`
+2. Create a new folder with the user ID (e.g., `user11`)
+3. Inside that folder, add the following three summary files:
+   - `gama.txt`
+   - `llama.txt`
+   - `human.txt`
+
+Each file should contain one version of the summary for the user.
+
+---
+
+## 🎥 Adding New Videos
+
+### Step 1: Upload to YouTube
+
+- Upload the short and long versions of your video
+- Set each video to **“Unlisted”**
+- Copy the video ID from the YouTube URL (i.e., the part after `youtu.be/` or `watch?v=`)
+
+### Step 2: Register in `videoMap.js`
+
+Edit: `./src/data/videoMap.js`
+
+Add a new entry for the user like this:
+
+```js
+const VIDEO_URLS = {
+  user11: {
+    short: "https://www.youtube.com/embed/yourShortVideoID",
+    long:  "https://www.youtube.com/embed/yourLongVideoID"
+  },
+  // ... other users
+};
+```
+
+---
+
+## 🛠 Modifying the Interface or Logic
+
+If you want to:
+
+- Change page content or layout:  
+  → Edit `./src/components/SummaryPage.jsx`
+
+- Change video display behavior or logic:  
+  → Also in `SummaryPage.jsx`
+
+- Add new summary highlight words (e.g., for verbs/nouns):  
+  → Edit `./src/data/highlights.js`
+
+---
+
+## 🧪 Local Testing
+
+Simply run:
+```bash
+npm run dev
+```
+
+---
+
+## 📁 Project Structure Overview
+
+```
+├── public/
+│   └── user_data/         ← summary text files per user
+├── src/
+│   ├── components/
+│   │   └── SummaryPage.jsx ← main UI page
+│   └── data/
+│       ├── videoMap.js     ← maps users to YouTube video URLs
+│       └── highlights.js   ← optional: word highlighting for each summary
+```
+
+---
+
+## 🧾 License
+
+This project is for research and educational use only.
+
+---
