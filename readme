@@ -2,3 +2,4 @@
 2. To add new video for user study, go to ./src/data/videoMap.js, add long/short video address There
 3. For VideoMap, go to Youtube Channel, upload the video, then mark it 'unlist', copy what's after the "youtu.com/" using the similar format in videoMap
 4. For local test, use this in commandline "npm run dev" 
+5. If anything need to be changed in Page, go to ./src/components/SummaryPage.jsx
