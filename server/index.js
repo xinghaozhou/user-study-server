@@ -38,11 +38,8 @@ app.options('/api/*', corsApi);  // pre-flight for /api/*
 // ---------- 2. body parsing & static assets --------------------------
 app.use(express.json());
 app.use('/static', express.static(path.join(__dirname, 'public')));
-app.use('/user', express.static(path.join(__dirname, 'public/user_data')));
+app.use('/user_data', express.static(path.join(__dirname, 'public/user_data')));
 
-app.get('*', (_, res) =>
-  res.sendFile(path.join(__dirname, 'public', 'index.html'))
-);
 
 // ---------- 3. Redis client ------------------------------------------
 const redisURL = process.env.REDIS_URL || 'redis://localhost:6379';
@@ -68,21 +65,21 @@ app.post('/api/saveMapping', async (req, res) => {
   try{
     const setRes = await redis.set(
       key,
-      JSON.stringify({mapping, savedAt: Data.now()}),
-      { NX: true, EX: 60 * 60}
+      JSON.stringify({ mapping, savedAt: Date.now() }),
+      { NX: true, EX: 60 * 60 }
     );
 
     if(setRes == null){
       const cached = await redis.get(key);
       console.log("Reusing cache mapping for", userId)
-      return res.json({status: 'cached', data: JSON.parse});
+      return res.json({ status: 'cached', data: JSON.parse(cached) });
     }
 
     console.log('Saved mapping for', userId);
-    return res.json({status: 'saved', data: {mapping }});
-  }catch(err){
-    console.error('Redis error:', err);
-    return res.status(500).json({eoor: 'Redis failure'});
+    return res.json({ status: 'saved', data: { mapping } });
+    }catch (err) {
+      console.error('Redis error:', err);
+      return res.status(500).json({ error: 'Redis failure' });
   }
 
   // try {
@@ -111,6 +108,12 @@ app.get('/api/getMapping', async (req, res) => {
 app.get('/api/health', (_, res) => res.send('OK'));
 
 // ---------- 5. Start server ------------------------------------------
+
+app.get('*', (_, res) =>
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
+);
+
+
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
