@@ -40,6 +40,10 @@ app.use(express.json());
 app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use('/user', express.static(path.join(__dirname, 'public/user_data')));
 
+app.get('*', (_, res) =>
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
+);
+
 // ---------- 3. Redis client ------------------------------------------
 const redisURL = process.env.REDIS_URL || 'redis://localhost:6379';
 const redis = createClient({ url: redisURL });
