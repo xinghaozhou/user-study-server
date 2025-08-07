@@ -18,6 +18,8 @@ const allowList = [
 ];
 const vercelPreviewRE = /^https:\/\/user-study-server-git-.*\.vercel\.app$/;
 
+
+const SUMMARY_FILES = ['llama', 'gama', 'human']; 
 const corsApi = cors({
   origin: (origin, cb) => {
     if (!origin) return cb(null, true); // curl / health checks
@@ -58,14 +60,35 @@ app.post('/api/saveMapping', async (req, res) => {
   if (!userId || !mapping)
     return res.status(400).json({ error: 'Missing userId or mapping' });
 
-  try {
-    await redis.set(`mapping:${userId}`, JSON.stringify({ mapping, timestamp }));
-    console.log('✅ Saved mapping for', userId);
-    return res.json({ message: 'Mapping saved to Redis' });
-  } catch (err) {
-    console.error('❌ Redis save error:', err);
-    return res.status(500).json({ error: 'Failed to save mapping' });
+  const key = `mapping:${userId}`;
+  try{
+    const setRes = await redis.set(
+      key,
+      JSON.stringify({mapping, savedAt: Data.now()}),
+      { NX: true, EX: 60 * 60}
+    );
+
+    if(setRes == null){
+      const cached = await redis.get(key);
+      console.log("Reusing cache mapping for", userId)
+      return res.json({status: 'cached', data: JSON.parse});
+    }
+
+    console.log('Saved mapping for', userId);
+    return res.json({status: 'saved', data: {mapping }});
+  }catch(err){
+    console.error('Redis error:', err);
+    return res.status(500).json({eoor: 'Redis failure'});
   }
+
+  // try {
+  //   await redis.set(`mapping:${userId}`, JSON.stringify({ mapping, timestamp }));
+  //   console.log('✅ Saved mapping for', userId);
+  //   return res.json({ message: 'Mapping saved to Redis' });
+  // } catch (err) {
+  //   console.error('❌ Redis save error:', err);
+  //   return res.status(500).json({ error: 'Failed to save mapping' });
+  // }
 });
 
 app.get('/api/getMapping', async (req, res) => {
