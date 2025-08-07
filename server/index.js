@@ -56,6 +56,34 @@ redis.on('error', err => console.error('❌ Redis error:', err));
 })();
 
 // ---------- 4. REST API ------------------------------------------------
+app.get('/api/order/:userId', async (req, res) => {
+  const { userId } = req.params;
+  if (!userId) return res.status(400).json({ error: 'Missing userId' });
+
+  const key = `order:${userId}`;
+
+  try {
+    const cached = await redis.get(key);
+    if (cached) return res.json(JSON.parse(cached));  // 命中 → 直接返回
+
+    const shuffled = SUMMARY_FILES
+      .map(s => ({ source: s, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map((s, i) => ({
+        label: String.fromCharCode(65 + i),   // A / B / C
+        source: s.source,
+      }));
+
+    await redis.set(key, JSON.stringify({ order: shuffled }), { EX: 60 * 60 });
+
+    return res.json({ order: shuffled });
+  } catch (err) {
+    console.error('❌ Redis order error:', err);
+    return res.status(500).json({ error: 'Failed to get order' });
+  }
+});
+
+
 app.post('/api/saveMapping', async (req, res) => {
   const { userId, mapping, timestamp = new Date().toISOString() } = req.body;
   if (!userId || !mapping)
@@ -69,7 +97,7 @@ app.post('/api/saveMapping', async (req, res) => {
       { NX: true, EX: 60 * 60 }
     );
 
-    if(setRes == null){
+    if(setRes === null){
       const cached = await redis.get(key);
       console.log("Reusing cache mapping for", userId)
       return res.json({ status: 'cached', data: JSON.parse(cached) });
