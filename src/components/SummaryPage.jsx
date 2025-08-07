@@ -35,6 +35,7 @@ export default function SummaryPage() {
   const navigate = useNavigate();
 
   const [summaries, setSummaries] = useState([]);
+  const [manualUserId, setManualUserId] = useState("");
   const [nextEnabled, setNextEnabled] = useState(false);
   const [playLongVideo, setPlayLongVideo] = useState(false);
   const [videoSrcs, setVideoSrcs] = useState({ short: "", long: "" });
@@ -162,7 +163,31 @@ export default function SummaryPage() {
   };
 
   return (
+
     <div className="max-w-6xl mx-auto px-6 py-8 space-y-8">
+      <div className="flex items-center space-x-2">
+      <input
+        type="text"
+        placeholder="Enter user ID (e.g., user03)"
+        value={manualUserId}
+        onChange={(e) => setManualUserId(e.target.value)}
+        className="border rounded-md px-3 py-1 text-sm shadow"
+      />
+      <button
+        onClick={() => {
+          if (/^user\d{2}$/.test(manualUserId)) {
+            navigate(`/user/${manualUserId}`);
+          } else {
+            alert("Please enter a valid user ID like user01");
+          }
+        }}
+        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-1 rounded shadow"
+      >
+        Go
+      </button>
+    </div>
+
+
 
       <div className="flex justify-between items-center w-full px-4">
         {/* Previous */}
