@@ -1,29 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import VIDEO_URLS from "../data/videoMap";
-import highlights from "../data/highlights";
 
-/**
- * Highlight selected keywords inside a paragraph.
- */
-function highlightWordsInText(text, wordsToHighlight) {
-  if (!wordsToHighlight || wordsToHighlight.length === 0) return text;
 
-  // Sort longer words first to avoid substring conflicts
-  const sortedWords = [...wordsToHighlight].sort((a, b) => b.length - a.length);
-  const regex = new RegExp(`\\b(${sortedWords.join("|")})\\b`, "gi");
-
-  const parts = text.split(regex);
-  return parts.map((part, i) =>
-    sortedWords.some((w) => w.toLowerCase() === part.toLowerCase()) ? (
-      <span key={i} className="text-blue-900 font-medium">
-        {part}
-      </span>
-    ) : (
-      part
-    )
-  );
-}
 
 /**
  * Summary comparison page.
@@ -158,11 +137,10 @@ export default function SummaryPage() {
         <button
           onClick={() => navigate(`/user/${prevUserId}`)}
           disabled={userNum === 1}
-          className={`px-4 py-2 rounded-lg font-semibold shadow-md ${
-            userNum === 1
-              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700 text-white"
-          }`}
+          className={`px-4 py-2 rounded-lg font-semibold shadow-md ${userNum === 1
+            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+            : "bg-blue-600 hover:bg-blue-700 text-white"
+            }`}
         >
           Previous Page
         </button>
@@ -170,11 +148,10 @@ export default function SummaryPage() {
         <button
           onClick={() => navigate(nextPath)}
           disabled={!nextEnabled}
-          className={`px-4 py-2 rounded-lg font-semibold shadow-md ${
-            nextEnabled
-              ? "bg-blue-600 hover:bg-blue-700 text-white"
-              : "bg-gray-300 text-gray-500 cursor-not-allowed"
-          }`}
+          className={`px-4 py-2 rounded-lg font-semibold shadow-md ${nextEnabled
+            ? "bg-blue-600 hover:bg-blue-700 text-white"
+            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
         >
           {nextLabel}
         </button>
@@ -209,9 +186,7 @@ export default function SummaryPage() {
             className="flex flex-col justify-between border rounded-xl p-4 shadow-md text-sm whitespace-pre-wrap break-words min-h-[300px]"
           >
             <h3 className="font-semibold mb-2 text-gray-700">Summary {item.label}</h3>
-            <p className="flex-grow">
-              {highlightWordsInText(item.text, highlights[userId]?.[item.source])}
-            </p>
+            <p className="flex-grow">{item.text}</p>
           </div>
         ))}
       </div>

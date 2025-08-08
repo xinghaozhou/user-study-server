@@ -101,8 +101,6 @@ If you want to:
 - Change video display behavior or logic:  
   → Also in `SummaryPage.jsx`
 
-- Add new summary highlight words (e.g., for verbs/nouns):  
-  → Edit `./src/data/highlights.js`
 
 ---
 
